@@ -11,6 +11,10 @@
     <% end %>
   </p>
 
+  <% unless @post.user.nil? %>  
+  <p>Written by: <%= @post.user.email %></p>
+  <% end %> 
+
   <p class="body">
     <%= @post.body %>
   </p>
