@@ -3,7 +3,7 @@ class PostsController < ApplicationController
   before_action :set_post, except: [:index, :new]
 
   def index
-    @posts = Post.all.order('created_at DESC')
+    @posts = Post.paginate(:page => params[:page], :per_page => 10).latest
   end
 
   def show

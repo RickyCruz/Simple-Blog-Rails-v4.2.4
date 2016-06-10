@@ -269,3 +269,34 @@ a {
         }
     }
 }
+.pagination {
+    background: #f5f7f9;
+    border-bottom: 1px solid #d6dce0;
+    text-align: center;
+    padding: 1em;
+    cursor: default;
+}
+.pagination a, .pagination span {
+    padding: 0.2em 0.3em; 
+}
+.pagination .disabled {
+    color: #aaaaaa;
+}
+.pagination .current {
+    font-style: normal;
+    font-weight: 500;
+    background-color: #d6dce0;
+    display: inline-block;
+    width: 1.4em;
+    height: 1.4em;
+    border-radius: 1em;
+}
+.pagination a {
+    color: #9eafba;
+    text-decoration: none;
+    transition: all .4s ease;
+}
+.pagination a:hover, .pagination a:focus {
+    text-decoration: underline;
+    color: #33acb7;
+}
