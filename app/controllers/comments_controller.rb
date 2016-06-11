@@ -2,8 +2,13 @@ class CommentsController < ApplicationController
   before_action :set_post, only: [:create, :destroy]
 
   def create
-    @comment = @post.comments.create(params[:comment].permit(:name, :body))
-    redirect_to post_path(@post)
+    @comment = @post.comments.new(params[:comment].permit(:name, :body))
+    @comment.post = @post
+    if @comment.save
+      redirect_to @comment.post, notice: 'Comment was successfully created.'
+    else
+      render 'posts/show'
+    end
   end
 
   def destroy

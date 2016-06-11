@@ -1,12 +1,13 @@
 class PostsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
-  before_action :set_post, except: [:index, :new]
+  before_action :set_post, except: [:index, :new, :create]
 
   def index
-    @posts = Post.paginate(:page => params[:page], :per_page => 10).latest
+    @posts = Post.paginate(:page => params[:page], :per_page => 5).latest
   end
 
   def show
+    @comment = Comment.new
   end
 
   def new
@@ -16,7 +17,7 @@ class PostsController < ApplicationController
   def create
     @post = current_user.posts.new(post_params)
     if @post.save
-      redirect_to @post
+      redirect_to @post, notice: 'Post was successfully created.'
     else
       render 'new'
     end
@@ -27,7 +28,7 @@ class PostsController < ApplicationController
 
   def update
     if @post.update(post_params)
-      redirect_to @post
+      redirect_to @post, notice: 'Post was successfully updated.'
     else 
       render 'edit'
     end
@@ -35,7 +36,7 @@ class PostsController < ApplicationController
 
   def destroy
     @post.destroy
-    redirect_to root_path
+    redirect_to root_path, notice: 'Post was deleted.'
   end
 
   private
@@ -45,5 +46,8 @@ class PostsController < ApplicationController
 
   def set_post
     @post = Post.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+    flash[:notice] = "Post not found"
+    redirect_to :action => 'index'
   end
 end

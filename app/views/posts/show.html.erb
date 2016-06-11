@@ -6,13 +6,13 @@
   <p class="date">
     Submitted <%= time_ago_in_words(@post.created_at) %> ago
     <% if user_signed_in? %>
-      | <%= link_to 'Edit', edit_post_path(@post) %>
-      | <%= link_to 'Delete', post_path(@post), method: :delete, data: { confirm: 'Are you sure?' } %>
+      | <%= link_to 'Edit', edit_post_path(@post), :class => 'edit' %>
+      | <%= link_to 'Delete', post_path(@post), method: :delete, data: { confirm: 'Are you sure?' }, :class => 'delete' %>
     <% end %>
   </p>
 
   <% unless @post.user.nil? %>  
-  <p>Written by: <%= @post.user.email %></p>
+  <p class="date_and_author">Written by: <%= @post.user.email %></p>
   <% end %> 
 
   <p class="body">
@@ -20,7 +20,9 @@
   </p>
   <div id="comments">
     <h2><%= @post.comments.count %> Comments</h2>
-    <%= render @post.comments %>
+    <% @comments = @post.comments.paginate(:page => params[:page], :per_page => 10).latest %>
+    <%= render @comments %>
+    <%= will_paginate @comments %>
     
     <h3>Add a comment:</h3>
     <%= render 'comments/form' %>
